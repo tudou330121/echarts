@@ -284,7 +284,7 @@ let doConvertPixel: (
     methodName: string,
     finder: ModelFinder,
     value: (number | number[]) | (ScaleDataValue | ScaleDataValue[])
-) => (number | number[]);
+) => (number | number[] | undefined | void);
 let updateStreamModes: (ecIns: ECharts, ecModel: GlobalModel) => void;
 let doDispatchAction: (this: ECharts, payload: Payload, silent: boolean) => void;
 let flushPendingActions: (this: ECharts, silent: boolean) => void;
@@ -907,7 +907,8 @@ class ECharts extends Eventful<ECEventDefinition> {
      */
     convertToPixel(finder: ModelFinder, value: ScaleDataValue): number;
     convertToPixel(finder: ModelFinder, value: ScaleDataValue[]): number[];
-    convertToPixel(finder: ModelFinder, value: ScaleDataValue | ScaleDataValue[]): number | number[] {
+    convertToPixel(finder: ModelFinder, value: ScaleDataValue | ScaleDataValue[])
+        : number | number[] | undefined | void {
         return doConvertPixel(this, 'convertToPixel', finder, value);
     }
 
@@ -917,7 +918,7 @@ class ECharts extends Eventful<ECEventDefinition> {
      */
     convertFromPixel(finder: ModelFinder, value: number): number;
     convertFromPixel(finder: ModelFinder, value: number[]): number[];
-    convertFromPixel(finder: ModelFinder, value: number | number[]): number | number[] {
+    convertFromPixel(finder: ModelFinder, value: number | number[]): number | number[] | undefined | void {
         return doConvertPixel(this, 'convertFromPixel', finder, value);
     }
 
@@ -1809,7 +1810,7 @@ class ECharts extends Eventful<ECEventDefinition> {
             methodName: 'convertFromPixel' | 'convertToPixel',
             finder: ModelFinder,
             value: (number | number[]) | (ScaleDataValue | ScaleDataValue[])
-        ): (number | number[]) {
+        ): (number | number[] | undefined | void) {
             if (ecIns._disposed) {
                 disposedWarning(ecIns.id);
                 return;
